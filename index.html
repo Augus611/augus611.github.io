@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Modern Concept</title>
+    <style>
+        /* --- DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-card: #121216;
+            --bg-input: #1a1a22;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border: #22222a;
+            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- GLOBAL RESETS --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 8rem 2rem 6rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Fancy background gradient glow */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            opacity: 0.12;
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 0.8rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact-box {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: var(--font);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4rem;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">⚡ Studio<span>Core</span></a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Showcase Section -->
+    <section class="hero">
+        <h1>Design simpler.<br>Build beautifully.</h1>
+        <p>A minimalist, ultra-fast template engineered with pure HTML and modern CSS architecture. No bulky frameworks required.</p>
+        <a href="#contact" class="cta-btn">Get Started</a>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <h2 class="section-title">Engineered for Performance</h2>
+        <div class="grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-icon">✦</div>
+                <h3>Pure Clean Code</h3>
+                <p>Zero external dependency footprint ensures your layout stays blazing fast and reliable forever.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-icon">✧</div>
+                <h3>Fluid Typography</h3>
+                <p>Meticulously tuned text hierarchies adapt perfectly across desktop, mobile, and tablet viewports.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-icon">🌌</div>
+                <h3>Dark Mode Native</h3>
+                <p>A sophisticated color palette designed to be easy on the eyes while highlighting core elements.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="section" id="contact">
+        <h2 class="section-title">Let's Connect</h2>
+        <div class="contact-box">
+            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Form submitted! (Demo only)');">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="4" required placeholder="Tell us about your project..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 StudioCore. Built beautifully with pure HTML & CSS.</p>
+    </footer>
+
+</body>
+</html>
