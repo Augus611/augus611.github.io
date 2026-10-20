@@ -1,199 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Carpeta Interactiva Estable</title>
-    <style>
-        :root {
-            --bg-env: #131316;
-            --folder-back: #d49a2a;
-            --folder-front: #f3c65f;
-            --folder-tab: #b5801d;
-            --paper: #fcfbfa;
-            --ink: #1f2937;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-env);
-            font-family: 'Courier New', Courier, monospace;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            perspective: 2000px;
-            user-select: none;
-        }
-
-        .instrucciones {
-            position: absolute;
-            top: 25px;
-            color: #71717a;
-            text-align: center;
-            font-size: 0.85rem;
-            max-width: 600px;
-            line-height: 1.5;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        /* CONTENEDOR GLOBAL: ROTACIÓN SIMÉTRICA */
-        .global-viewport {
-            transform-style: preserve-3d;
-            transform: rotateX(0deg) rotateY(0deg);
-            padding: 50px;
-            transition: transform 0.05s ease-out;
-        }
-
-        /* OBJETO CARPETA WINDOWS */
-        .folder-container {
-            width: 420px;
-            height: 300px;
-            position: relative;
-            transform-style: preserve-3d;
-            cursor: grab;
-        }
-
-        .folder-container:active {
-            cursor: grabbing;
-        }
-
-        .folder-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: var(--folder-back);
-            border-radius: 0 16px 16px 16px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            z-index: 1;
-        }
-
-        .folder-back::before {
-            content: '';
-            position: absolute;
-            top: -24px;
-            left: 0;
-            width: 130px;
-            height: 25px;
-            background-color: var(--folder-tab);
-            border-radius: 12px 12px 0 0;
-        }
-
-        .folder-front {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-color: var(--folder-front);
-            border-radius: 16px;
-            bottom: 0;
-            transform-origin: bottom center;
-            z-index: 10;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);
-            transform: rotateX(0deg);
-            pointer-events: none;
-        }
-
-        /* CONTENEDOR DE LAS HOJAS INTERNAS */
-        .paper-stack {
-            position: absolute;
-            width: 92%;
-            height: 95%;
-            left: 4%;
-            bottom: 8px;
-            z-index: 5;
-            transform-style: preserve-3d;
-        }
-
-        /* ESTILO GENERAL DE LAS HOJAS */
-        .paper-sheet {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--paper);
-            border-radius: 4px;
-            padding: 1.8rem;
-            color: var(--ink);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            transform-origin: bottom center;
-            transform: translateZ(0px) rotateX(0deg);
-            opacity: 1;
-            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
-        }
-
-        .paper-sheet:hover {
-            box-shadow: 0 0 20px rgba(243, 198, 95, 0.8);
-        }
-
-        .paper-sheet h2 {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            border-bottom: 2px dashed #cbd5e1;
-            padding-bottom: 0.25rem;
-            text-transform: uppercase;
-        }
-
-        .bold-tag {
-            font-weight: bold;
-            background: rgba(0,0,0,0.06);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 0.25rem;
-        }
-
-        .paper-sheet p {
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-    </style>
-</head>
 <body>
+
+    <div class="instrucciones">
+        <p><strong>Click Izquierdo + Arrastrar abajo:</strong> Abre la carpeta CV en abanico (Límite 80°).</p>
+        <p style="margin-top: 0.3rem; color: #a1a1aa;"><strong>Rueda del Medio + Arrastrar:</strong> Rota el maletín de forma simétrica (Límite 45°).</p>
+    </div>
 
     <div class="global-viewport" id="viewport">
         <div class="folder-container" id="folder">
             
             <div class="folder-back"></div>
 
-            <div class="paper-stack" id="paper-stack-container">
-                
-                <!-- Hoja 1 -->
-                <div class="paper-sheet" style="z-index: 4;" onclick="toggleIsolatedFlightWithReturn(this, event)">
-                    <h2>Experiencia</h2>
-                    <span class="bold-tag">Sostenedor de Hojas (2022-Pres)</span>
-                    <p>Soportó hasta 7 kg de archivos sin fatiga en las costuras de la base.</p>
-                    <span class="bold-tag" style="margin-top:0.5rem;">Viajero de Subte (2019-2022)</span>
-                    <p>Mantuvo 100% de los datos a salvo de empujones en hora pico.</p>
-                </div>
-
-                <!-- Hoja 2 -->
-                <div class="paper-sheet" style="z-index: 3;" onclick="toggleIsolatedFlightWithReturn(this, event)">
-                    <h2>Ficha Técnica</h2>
-                    <span class="bold-tag">Security Stack</span>
-                    <p>Cerradura manual de 3 dígitos inmune a ataques remotos (fijada en 0-0-0).</p>
-                    <span class="bold-tag" style="margin-top:0.5rem;">Almacenamiento</span>
-                    <p>Full-Stack: espacio para un sándwich, tres lapiceras y un cuaderno.</p>
-                </div>
-
-                <!-- Hoja 3 -->
-                <div class="paper-sheet" style="z-index: 2;" onclick="toggleIsolatedFlightWithReturn(this, event)">
-                    <h2>Auditorías</h2>
-                    <p><em>"Un poco pesado en el backend y sin wifi, pero maneja la presión perfectamente."</em></p>
-                    <p style="text-align:right; font-size:0.75rem; font-weight:bold; margin-bottom: 0.5rem;">— Recruiter Senior</p>
-                    <p><em>"El láser de vulnerabilidades rebotó contra el cuero legítimo."</em></p>
-                    <p style="text-align:right; font-size:0.75rem; font-weight:bold;">— Ciberseguridad</p>
-                </div>
-
-            </div>
+            <!-- Contenedor que inyectará las hojas de tu CV automáticamente -->
+            <div class="paper-stack" id="paper-stack-container"></div>
 
             <div class="folder-front" id="front-cover"></div>
 
@@ -201,15 +19,15 @@
     </div>
 
     <script>
-        // VARIABLES DE CONFIGURACIÓN GLOBAL RESTAURADAS
+        // CONFIGURACIONES MECÁNICAS ACCESIBLES
         const MAX_FOLDER_OPENING = 80; 
         const MAX_3D_ROTATION    = 45; 
 
         const viewport = document.getElementById('viewport');
         const frontCover = document.getElementById('front-cover');
         const paperStackContainer = document.getElementById('paper-stack-container');
-        const sheets = document.querySelectorAll('.paper-sheet');
         
+        let sheets = []; 
         let isDraggingLeft = false;
         let startLeftY = 0;
         let currentOpenProgress = 0; 
@@ -224,6 +42,45 @@
         window.addEventListener('contextmenu', (e) => {
             if (e.button === 1) e.preventDefault();
         });
+
+        // CARGA DINÁMICA DEL CV DESDE EL ARCHIVO DE TEXTO PLANO
+        async function cargarDatosCV() {
+            try {
+                const respuesta = await fetch('cv-datos.json');
+                const datos = await respuesta.json();
+                
+                paperStackContainer.innerHTML = '';
+
+                datos.forEach((seccion, index) => {
+                    const hoja = document.createElement('div');
+                    hoja.className = 'paper-sheet';
+                    hoja.style.zIndex = datos.length - index; 
+
+                    let tagesHTML = '';
+                    seccion.tags.forEach(tag => {
+                        tagesHTML += `<span class="bold-tag">${tag}</span><br>`;
+                    });
+
+                    hoja.innerHTML = `
+                        <h2>${seccion.titulo}</h2>
+                        ${tagesHTML}
+                        <p style="margin-top: 0.5rem;">${seccion.descripcion}</p>
+                    `;
+
+                    hoja.onclick = (event) => toggleIsolatedFlightWithReturn(hoja, event);
+                    paperStackContainer.appendChild(hoja);
+                });
+
+                sheets = document.querySelectorAll('.paper-sheet');
+                updateMechanics(0);
+
+            } catch (error) {
+                console.error("Error al cargar los datos del CV:", error);
+                paperStackContainer.innerHTML = `<div class="paper-sheet" style="z-index:1; opacity:1;"><h2 style="color:red;">Error de Carga</h2><p>Verifica que tu archivo 'cv-datos.json' esté en la raíz del repositorio.</p></div>`;
+            }
+        }
+
+        cargarDatosCV();
 
         window.addEventListener('mousedown', (e) => {
             if (activeExtractedSheet) return; 
@@ -241,7 +98,6 @@
         });
 
         window.addEventListener('mousemove', (e) => {
-            // LIBERACIÓN DE MOVIMIENTO: Ahora puedes mover la carpeta aunque una hoja esté regresando
             if (isDraggingLeft && !activeExtractedSheet) {
                 const deltaY = e.clientY - startLeftY;
                 startLeftY = e.clientY;
@@ -266,17 +122,6 @@
                 currentRotY = Math.max(-MAX_3D_ROTATION, Math.min(MAX_3D_ROTATION, currentRotY));
 
                 viewport.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
-                
-                // Si la carpeta se mueve mientras una hoja regresa, forzamos a que actualice su destino visual
-                const returningSheet = document.querySelector('.returning-sheet');
-                if (returningSheet) {
-                    const idx = Array.from(sheets).indexOf(returningSheet);
-                    const factor = currentOpenProgress / 100;
-                    const targetAngle = factor * -MAX_FOLDER_OPENING;
-                    const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
-                    const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
-                    returningSheet.style.transform = `translateZ(${idx * -6}px) rotateX(${currentSheetAngle}deg) scale(1)`;
-                }
             }
         });
 
@@ -300,30 +145,27 @@
             sheets.forEach((sheet, idx) => {
                 if (sheet !== activeExtractedSheet && !sheet.classList.contains('returning-sheet')) {
                     sheet.style.transition = 'none';
-                    const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
-                    const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
+                    const sheetMaxAngleMultiplier = 0.8 - (idx * (1.2 / (sheets.length || 1)));
+                    const currentSheetAngle = targetAngle * Math.max(0.1, sheetMaxAngleMultiplier);
                     const depth = idx * -6;
                     sheet.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg)`;
                 }
             });
         }
-        
-        updateMechanics(0);
 
         function toggleIsolatedFlightWithReturn(sheetElement, event) {
             event.stopPropagation(); 
 
             if (sheetElement === activeExtractedSheet) {
                 activeExtractedSheet = null;
-                
                 sheetElement.classList.add('returning-sheet');
                 sheetElement.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
                 
                 const idx = Array.from(sheets).indexOf(sheetElement);
                 const factor = currentOpenProgress / 100;
                 const targetAngle = factor * -MAX_FOLDER_OPENING;
-                const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
-                const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
+                const sheetMaxAngleMultiplier = 0.8 - (idx * (1.2 / (sheets.length || 1)));
+                const currentSheetAngle = targetAngle * Math.max(0.1, sheetMaxAngleMultiplier);
                 const depth = idx * -6;
                 
                 sheetElement.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg) scale(1)`;
