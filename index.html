@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Modern Concept</title>
+    <title>Portfolio - Carpeta Interactiva Estable</title>
     <style>
-        /* --- DESIGN SYSTEM & VARIABLES --- */
         :root {
-            --bg-main: #0a0a0c;
-            --bg-card: #121216;
-            --bg-input: #1a1a22;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.15);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: #22222a;
-            --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --bg-env: #131316;
+            --folder-back: #d49a2a;
+            --folder-front: #f3c65f;
+            --folder-tab: #b5801d;
+            --paper: #fcfbfa;
+            --ink: #1f2937;
         }
 
-        /* --- GLOBAL RESETS --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -26,322 +21,332 @@
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: var(--font);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* --- NAVIGATION --- */
-        header {
-            position: sticky;
-            top: 0;
-            background: rgba(10, 10, 12, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.25rem 2rem;
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            background-color: var(--bg-env);
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 2000px;
+            user-select: none;
         }
 
-        .logo span {
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-main);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 8rem 2rem 6rem 2rem;
+        .instrucciones {
+            position: absolute;
+            top: 25px;
+            color: #71717a;
             text-align: center;
-            position: relative;
+            font-size: 0.85rem;
+            max-width: 600px;
+            line-height: 1.5;
+            pointer-events: none;
+            z-index: 1000;
         }
 
-        /* Fancy background gradient glow */
-        .hero::before {
+        /* CONTENEDOR GLOBAL: ROTACIÓN SIMÉTRICA */
+        .global-viewport {
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            padding: 50px;
+            transition: transform 0.05s ease-out;
+        }
+
+        /* OBJETO CARPETA WINDOWS */
+        .folder-container {
+            width: 420px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: grab;
+        }
+
+        .folder-container:active {
+            cursor: grabbing;
+        }
+
+        .folder-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--folder-back);
+            border-radius: 0 16px 16px 16px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            z-index: 1;
+        }
+
+        .folder-back::before {
             content: '';
             position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: var(--accent);
-            opacity: 0.12;
-            filter: blur(80px);
-            border-radius: 50%;
-            z-index: -1;
+            top: -24px;
+            left: 0;
+            width: 130px;
+            height: 25px;
+            background-color: var(--folder-tab);
+            border-radius: 12px 12px 0 0;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: -1px;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 2.5rem auto;
-        }
-
-        .cta-btn {
-            display: inline-block;
-            background: var(--accent);
-            color: #ffffff;
-            padding: 0.8rem 2rem;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-
-        .cta-btn:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
-        }
-
-        /* --- FEATURES SECTION --- */
-        .section {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 2.5rem;
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 2.5rem 2rem;
-            border-radius: 8px;
-            transition: border-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-        }
-
-        .card-icon {
-            font-size: 1.5rem;
-            color: var(--accent);
-            margin-bottom: 1.25rem;
-        }
-
-        .card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* --- CONTACT SECTION --- */
-        .contact-box {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-        }
-
-        .form-group input, .form-group textarea {
+        .folder-front {
+            position: absolute;
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            color: var(--text-main);
-            font-family: var(--font);
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s ease;
+            height: 100%;
+            background-color: var(--folder-front);
+            border-radius: 16px;
+            bottom: 0;
+            transform-origin: bottom center;
+            z-index: 10;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.4);
+            transform: rotateX(0deg);
+            pointer-events: none;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--accent);
+        /* CONTENEDOR DE LAS HOJAS INTERNAS */
+        .paper-stack {
+            position: absolute;
+            width: 92%;
+            height: 95%;
+            left: 4%;
+            bottom: 8px;
+            z-index: 5;
+            transform-style: preserve-3d;
         }
 
-        .submit-btn {
+        /* ESTILO GENERAL DE LAS HOJAS */
+        .paper-sheet {
+            position: absolute;
             width: 100%;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--text-main);
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-weight: 600;
+            height: 100%;
+            background: var(--paper);
+            border-radius: 4px;
+            padding: 1.8rem;
+            color: var(--ink);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            border: 1px solid #e2e8f0;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transform-origin: bottom center;
+            transform: translateZ(0px) rotateX(0deg);
+            opacity: 1;
+            transition: transform 0.1s ease-out, box-shadow 0.3s ease;
         }
 
-        .submit-btn:hover {
-            background: var(--accent);
+        .paper-sheet:hover {
+            box-shadow: 0 0 20px rgba(243, 198, 95, 0.8);
         }
 
-        /* --- FOOTER --- */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem;
-            text-align: center;
+        .paper-sheet h2 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px dashed #cbd5e1;
+            padding-bottom: 0.25rem;
+            text-transform: uppercase;
+        }
+
+        .bold-tag {
+            font-weight: bold;
+            background: rgba(0,0,0,0.06);
+            padding: 2px 6px;
+            border-radius: 3px;
             font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 4rem;
+            display: inline-block;
+            margin-bottom: 0.25rem;
         }
 
-        /* --- RESPONSIVE DESIGN --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
+        .paper-sheet p {
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header>
-        <div class="nav-container">
-            <a href="#" class="logo">⚡ Studio<span>Core</span></a>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </header>
+    <div class="global-viewport" id="viewport">
+        <div class="folder-container" id="folder">
+            
+            <div class="folder-back"></div>
 
-    <!-- Hero Showcase Section -->
-    <section class="hero">
-        <h1>Design simpler.<br>Build beautifully.</h1>
-        <p>A minimalist, ultra-fast template engineered with pure HTML and modern CSS architecture. No bulky frameworks required.</p>
-        <a href="#contact" class="cta-btn">Get Started</a>
-    </section>
-
-    <!-- Features Section -->
-    <section class="section" id="features">
-        <h2 class="section-title">Engineered for Performance</h2>
-        <div class="grid">
-            <!-- Card 1 -->
-            <div class="card">
-                <div class="card-icon">✦</div>
-                <h3>Pure Clean Code</h3>
-                <p>Zero external dependency footprint ensures your layout stays blazing fast and reliable forever.</p>
-            </div>
-            <!-- Card 2 -->
-            <div class="card">
-                <div class="card-icon">✧</div>
-                <h3>Fluid Typography</h3>
-                <p>Meticulously tuned text hierarchies adapt perfectly across desktop, mobile, and tablet viewports.</p>
-            </div>
-            <!-- Card 3 -->
-            <div class="card">
-                <div class="card-icon">🌌</div>
-                <h3>Dark Mode Native</h3>
-                <p>A sophisticated color palette designed to be easy on the eyes while highlighting core elements.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Form Section -->
-    <section class="section" id="contact">
-        <h2 class="section-title">Let's Connect</h2>
-        <div class="contact-box">
-            <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Form submitted! (Demo only)');">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" required placeholder="Your name">
+            <div class="paper-stack" id="paper-stack-container">
+                
+                <!-- Hoja 1 -->
+                <div class="paper-sheet" style="z-index: 4;" onclick="toggleIsolatedFlightWithReturn(this, event)">
+                    <h2>Experiencia</h2>
+                    <span class="bold-tag">Sostenedor de Hojas (2022-Pres)</span>
+                    <p>Soportó hasta 7 kg de archivos sin fatiga en las costuras de la base.</p>
+                    <span class="bold-tag" style="margin-top:0.5rem;">Viajero de Subte (2019-2022)</span>
+                    <p>Mantuvo 100% de los datos a salvo de empujones en hora pico.</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" required placeholder="you@example.com">
+
+                <!-- Hoja 2 -->
+                <div class="paper-sheet" style="z-index: 3;" onclick="toggleIsolatedFlightWithReturn(this, event)">
+                    <h2>Ficha Técnica</h2>
+                    <span class="bold-tag">Security Stack</span>
+                    <p>Cerradura manual de 3 dígitos inmune a ataques remotos (fijada en 0-0-0).</p>
+                    <span class="bold-tag" style="margin-top:0.5rem;">Almacenamiento</span>
+                    <p>Full-Stack: espacio para un sándwich, tres lapiceras y un cuaderno.</p>
                 </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" rows="4" required placeholder="Tell us about your project..."></textarea>
+
+                <!-- Hoja 3 -->
+                <div class="paper-sheet" style="z-index: 2;" onclick="toggleIsolatedFlightWithReturn(this, event)">
+                    <h2>Auditorías</h2>
+                    <p><em>"Un poco pesado en el backend y sin wifi, pero maneja la presión perfectamente."</em></p>
+                    <p style="text-align:right; font-size:0.75rem; font-weight:bold; margin-bottom: 0.5rem;">— Recruiter Senior</p>
+                    <p><em>"El láser de vulnerabilidades rebotó contra el cuero legítimo."</em></p>
+                    <p style="text-align:right; font-size:0.75rem; font-weight:bold;">— Ciberseguridad</p>
                 </div>
-                <button type="submit" class="submit-btn">Send Message</button>
-            </form>
+
+            </div>
+
+            <div class="folder-front" id="front-cover"></div>
+
         </div>
-    </section>
+    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 StudioCore. Built beautifully with pure HTML & CSS.</p>
-    </footer>
+    <script>
+        // VARIABLES DE CONFIGURACIÓN GLOBAL RESTAURADAS
+        const MAX_FOLDER_OPENING = 80; 
+        const MAX_3D_ROTATION    = 45; 
 
+        const viewport = document.getElementById('viewport');
+        const frontCover = document.getElementById('front-cover');
+        const paperStackContainer = document.getElementById('paper-stack-container');
+        const sheets = document.querySelectorAll('.paper-sheet');
+        
+        let isDraggingLeft = false;
+        let startLeftY = 0;
+        let currentOpenProgress = 0; 
+        let activeExtractedSheet = null;
+
+        let isDraggingMiddle = false;
+        let startMiddleX = 0;
+        let startMiddleY = 0;
+        let currentRotX = 0;
+        let currentRotY = 0;
+
+        window.addEventListener('contextmenu', (e) => {
+            if (e.button === 1) e.preventDefault();
+        });
+
+        window.addEventListener('mousedown', (e) => {
+            if (activeExtractedSheet) return; 
+
+            if (e.button === 0) {
+                isDraggingLeft = true;
+                startLeftY = e.clientY;
+                frontCover.style.transition = 'none';
+            } else if (e.button === 1) {
+                e.preventDefault();
+                isDraggingMiddle = true;
+                startMiddleX = e.clientX;
+                startMiddleY = e.clientY;
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            // LIBERACIÓN DE MOVIMIENTO: Ahora puedes mover la carpeta aunque una hoja esté regresando
+            if (isDraggingLeft && !activeExtractedSheet) {
+                const deltaY = e.clientY - startLeftY;
+                startLeftY = e.clientY;
+
+                currentOpenProgress += deltaY * 0.4;
+                currentOpenProgress = Math.max(0, Math.min(100, currentOpenProgress));
+
+                updateMechanics(currentOpenProgress);
+            }
+
+            if (isDraggingMiddle && !activeExtractedSheet) {
+                const deltaX = e.clientX - startMiddleX;
+                const deltaY = e.clientY - startMiddleY;
+                
+                startMiddleX = e.clientX;
+                startMiddleY = e.clientY;
+
+                currentRotY += deltaX * 0.25; 
+                currentRotX -= deltaY * 0.25; 
+
+                currentRotX = Math.max(-MAX_3D_ROTATION, Math.min(MAX_3D_ROTATION, currentRotX));
+                currentRotY = Math.max(-MAX_3D_ROTATION, Math.min(MAX_3D_ROTATION, currentRotY));
+
+                viewport.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+                
+                // Si la carpeta se mueve mientras una hoja regresa, forzamos a que actualice su destino visual
+                const returningSheet = document.querySelector('.returning-sheet');
+                if (returningSheet) {
+                    const idx = Array.from(sheets).indexOf(returningSheet);
+                    const factor = currentOpenProgress / 100;
+                    const targetAngle = factor * -MAX_FOLDER_OPENING;
+                    const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
+                    const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
+                    returningSheet.style.transform = `translateZ(${idx * -6}px) rotateX(${currentSheetAngle}deg) scale(1)`;
+                }
+            }
+        });
+
+        window.addEventListener('mouseup', (e) => {
+            if (e.button === 0) isDraggingLeft = false;
+            if (e.button === 1) isDraggingMiddle = false;
+        });
+
+        function updateMechanics(progress) {
+            const factor = progress / 100;
+            const targetAngle = factor * -MAX_FOLDER_OPENING;
+            
+            frontCover.style.transform = `rotateX(${targetAngle}deg)`;
+
+            if (progress < 15) {
+                frontCover.style.pointerEvents = 'auto';
+            } else {
+                frontCover.style.pointerEvents = 'none';
+            }
+
+            sheets.forEach((sheet, idx) => {
+                if (sheet !== activeExtractedSheet && !sheet.classList.contains('returning-sheet')) {
+                    sheet.style.transition = 'none';
+                    const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
+                    const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
+                    const depth = idx * -6;
+                    sheet.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg)`;
+                }
+            });
+        }
+        
+        updateMechanics(0);
+
+        function toggleIsolatedFlightWithReturn(sheetElement, event) {
+            event.stopPropagation(); 
+
+            if (sheetElement === activeExtractedSheet) {
+                activeExtractedSheet = null;
+                
+                sheetElement.classList.add('returning-sheet');
+                sheetElement.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+                
+                const idx = Array.from(sheets).indexOf(sheetElement);
+                const factor = currentOpenProgress / 100;
+                const targetAngle = factor * -MAX_FOLDER_OPENING;
+                const sheetMaxAngleMultiplier = 0.8 - (idx * 0.25);
+                const currentSheetAngle = targetAngle * sheetMaxAngleMultiplier;
+                const depth = idx * -6;
+                
+                sheetElement.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg) scale(1)`;
+
+                setTimeout(() => {
+                    sheetElement.classList.remove('returning-sheet');
+                    sheetElement.style.zIndex = ''; 
+                    updateMechanics(currentOpenProgress);
+                }, 450);
+
+            } else {
+                if (activeExtractedSheet || document.querySelector('.returning-sheet')) return; 
+                
+                activeExtractedSheet = sheetElement;
+                sheetElement.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.3, 1)';
+                sheetElement.style.zIndex = '999999';
+
+                const invX = -currentRotX;
+                const invY = -currentRotY;
+
+                sheetElement.style.transform = `translateY(-140px) translateZ(450px) rotateY(${invY}deg) rotateX(${invX}deg) scale(1.35)`;
+            }
+        }
+    </script>
 </body>
 </html>
