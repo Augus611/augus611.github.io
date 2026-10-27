@@ -13,5 +13,43 @@
     "titulo": "Habilidades Técnicas",
     "tags": ["HTML5 / CSS3 Avanzado", "Arquitectura 3D y Perspectiva", "JavaScript Vanilla Native"],
     "descripcion": "Dominio avanzado de entornos tridimensionales web, cálculo de giroscopios inversos en tiempo real para anulación de distorsiones y manipulación dinámica del DOM."
+  },{
+    "titulo": "Información Personal",
+    "tags": ["📍 La Plata, Argentina", "📧 tu-email@email.com", "💻 GitHub: augus611"],
+    "descripcion": "Desarrollador enfocado en crear interfaces tridimensionales interactivas y mecánicas web fluidas de alta fidelidad."
+  },
+  {
+    "titulo": "Experiencia Laboral",
+    "tags": ["Desarrollador Frontend (2024 - Pres)", "Maquetador UI (2022 - 2024)"],
+    "descripcion": "Especialista en la optimización de cinemáticas complejas en CSS 3D, control lineal de abanicos y gestión de oclusión de capas dinámicas."
+  },
+  {
+    "titulo": "Habilidades Técnicas",
+    "tags": ["HTML5 / CSS3 Avanzado", "Arquitectura 3D y Perspectiva", "JavaScript Vanilla Native"],
+    "descripcion": "Dominio avanzado de entornos tridimensionales web, cálculo de giroscopios inversos en tiempo real para anulación de distorsiones y manipulación dinámica del DOM."
+  },{
+    "titulo": "Información Personal",
+    "tags": ["📍 La Plata, Argentina", "📧 tu-email@email.com", "💻 GitHub: augus611"],
+    "descripcion": "Desarrollador enfocado en crear interfaces tridimensionales interactivas y mecánicas web fluidas de alta fidelidad."
+  },
+  {
+    "titulo": "Experiencia Laboral",
+    "tags": ["Desarrollador Frontend (2024 - Pres)", "Maquetador UI (2022 - 2024)"],
+    "descripcion": "Especialista en la optimización de cinemáticas complejas en CSS 3D, control lineal de abanicos y gestión de oclusión de capas dinámicas."
+  },
+  {
+    "titulo": "Habilidades Técnicas",
+    "tags": ["HTML5 / CSS3 Avanzado", "Arquitectura 3D y Perspectiva", "JavaScript Vanilla Native"],
+    "descripcion": "Dominio avanzado de entornos tridimensionales web, cálculo de giroscopios inversos en tiempo real para anulación de distorsiones y manipulación dinámica del DOM."
+  },
+  {
+    "titulo": "Experiencia Laboral",
+    "tags": ["Desarrollador Frontend (2024 - Pres)", "Maquetador UI (2022 - 2024)"],
+    "descripcion": "Especialista en la optimización de cinemáticas complejas en CSS 3D, control lineal de abanicos y gestión de oclusión de capas dinámicas."
+  },
+  {
+    "titulo": "Habilidades Técnicas",
+    "tags": ["HTML5 / CSS3 Avanzado", "Arquitectura 3D y Perspectiva", "JavaScript Vanilla Native"],
+    "descripcion": "Dominio avanzado de entornos tridimensionales web, cálculo de giroscopios inversos en tiempo real para anulación de distorsiones y manipulación dinámica del DOM."
   }
 ]

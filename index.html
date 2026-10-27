@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Carpeta Interactiva Estable</title>
+    <title>Portfolio - Augusto Gonzalez</title>
     <style>
         :root {
             --bg-env: #131316;
@@ -12,6 +12,10 @@
             --folder-tab: #b5801d;
             --paper: #fcfbfa;
             --ink: #1f2937;
+            --idle-animation-delay: 5s;
+            --idle-animation-duration: 2s;
+            --idle-sway-angle: 15deg;
+            --idle-open-angle: 20deg;
         }
 
         * {
@@ -42,6 +46,22 @@
             line-height: 1.5;
             pointer-events: none;
             z-index: 1000;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .instrucciones.visible {
+            opacity: 1;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .instrucciones {
+                transition-duration: 0.01ms;
+            }
+
+            .global-viewport.idle-sway {
+                animation: none;
+            }
         }
 
         /* CONTENEDOR GLOBAL: ROTACIÓN SIMÉTRICA */
@@ -50,6 +70,16 @@
             transform: rotateX(0deg) rotateY(0deg);
             padding: 50px;
             transition: transform 0.05s ease-out;
+        }
+
+        .global-viewport.idle-sway {
+            animation: folder-sway var(--idle-animation-duration) ease-in-out var(--idle-animation-delay) infinite;
+        }
+
+        @keyframes folder-sway {
+            0%, 8%, 40%, 100% { transform: rotateX(0deg) rotateY(0deg); }
+            18% { transform: rotateX(0deg) rotateY(calc(0deg - var(--idle-sway-angle))); }
+            29% { transform: rotateX(0deg) rotateY(var(--idle-sway-angle)); }
         }
 
         /* OBJETO CARPETA WINDOWS */
@@ -159,9 +189,9 @@
 </head>
 <body>
 
-    <div class="instrucciones">
-        <p><strong>Click Izquierdo + Arrastrar abajo:</strong> Abre la carpeta CV en abanico (Límite 80°).</p>
-        <p style="margin-top: 0.3rem; color: #a1a1aa;"><strong>Rueda del Medio + Arrastrar:</strong> Rota el maletín de forma simétrica (Límite 45°).</p>
+    <div class="instrucciones" aria-hidden="true">
+        <p><strong>Click Izquierdo + Arrastrar abajo:</strong> Abre la carpeta en abanico.</p>
+        <p style="margin-top: 0.3rem; color: #a1a1aa;"><strong>Rueda del Medio + Arrastrar:</strong> Rota la carpeta.</p>
     </div>
 
     <div class="global-viewport" id="viewport">
@@ -179,17 +209,20 @@
 
     <script>
         // CONFIGURACIONES MECÁNICAS ACCESIBLES
+        const MIN_FOLDER_OPENING = 5;
         const MAX_FOLDER_OPENING = 80; 
-        const MAX_3D_ROTATION    = 45; 
+        const MAX_3D_ROTATION    = 60; 
 
         const viewport = document.getElementById('viewport');
+        const folder = document.getElementById('folder');
+        const instructions = document.querySelector('.instrucciones');
         const frontCover = document.getElementById('front-cover');
         const paperStackContainer = document.getElementById('paper-stack-container');
         
         let sheets = []; 
         let isDraggingLeft = false;
         let startLeftY = 0;
-        let currentOpenProgress = 0; 
+        let currentOpenProgress = MIN_FOLDER_OPENING; 
         let activeExtractedSheet = null;
 
         let isDraggingMiddle = false;
@@ -197,6 +230,107 @@
         let startMiddleY = 0;
         let currentRotX = 0;
         let currentRotY = 0;
+        let instructionsTimer;
+        let showInstructionsAfterIdleCycle = false;
+        let idleAnimationActive = false;
+        let idleAnimationFrame;
+        let idleAnimationStart;
+        let lastIdleCycle = -1;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const idleAnimationDelay = getCssTimeInMilliseconds('--idle-animation-delay');
+        const idleAnimationDuration = Math.max(1, getCssTimeInMilliseconds('--idle-animation-duration'));
+        const idleOpeningAngle = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--idle-open-angle'));
+
+        function getCssTimeInMilliseconds(variableName) {
+            const value = getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+            const duration = parseFloat(value);
+            return value.endsWith('ms') ? duration : duration * 1000;
+        }
+
+        function easeInOut(progress) {
+            return (1 - Math.cos(Math.PI * progress)) / 2;
+        }
+
+        function animateIdleOpening(timestamp) {
+            if (!idleAnimationActive) return;
+
+            const elapsed = timestamp - idleAnimationStart;
+
+            let progress = 0;
+            if (elapsed >= idleAnimationDelay) {
+                const cycleElapsed = elapsed - idleAnimationDelay;
+                const cycle = Math.floor(cycleElapsed / idleAnimationDuration);
+
+                if (showInstructionsAfterIdleCycle && lastIdleCycle >= 0 && cycle > lastIdleCycle) {
+                    revealInstructions();
+                    return;
+                }
+                lastIdleCycle = cycle;
+                const phase = (cycleElapsed % idleAnimationDuration) / idleAnimationDuration;
+                const maxProgress = Math.min(100, (idleOpeningAngle / MAX_FOLDER_OPENING) * 100);
+
+                if (phase >= 0.08 && phase < 0.22) {
+                    progress = easeInOut((phase - 0.08) / 0.14) * maxProgress;
+                } else if (phase >= 0.22 && phase < 0.4) {
+                    progress = (1 - easeInOut((phase - 0.22) / 0.18)) * maxProgress;
+                }
+            }
+
+            updateMechanics(progress);
+            idleAnimationFrame = requestAnimationFrame(animateIdleOpening);
+        }
+
+        function resetInstructionsTimer() {
+            if (instructions.classList.contains('visible')) return;
+
+            clearTimeout(instructionsTimer);
+            instructionsTimer = setTimeout(() => {
+                if (idleAnimationActive) {
+                    showInstructionsAfterIdleCycle = true;
+                    return;
+                }
+
+                revealInstructions();
+            }, 10000);
+        }
+
+        function revealInstructions() {
+            showInstructionsAfterIdleCycle = false;
+            stopIdleAnimation();
+            instructions.classList.add('visible');
+            instructions.setAttribute('aria-hidden', 'false');
+        }
+
+        function stopIdleAnimation() {
+            showInstructionsAfterIdleCycle = false;
+            idleAnimationActive = false;
+            cancelAnimationFrame(idleAnimationFrame);
+            viewport.classList.remove('idle-sway');
+            updateMechanics(currentOpenProgress);
+        }
+
+        if (!prefersReducedMotion) {
+            idleAnimationActive = true;
+            idleAnimationStart = performance.now();
+            viewport.classList.add('idle-sway');
+            idleAnimationFrame = requestAnimationFrame(animateIdleOpening);
+        }
+
+        window.addEventListener('pointerdown', (event) => {
+            if (event.target instanceof Node && folder.contains(event.target)) {
+                stopIdleAnimation();
+            }
+        }, true);
+
+        ['pointerdown', 'pointermove', 'wheel', 'click'].forEach((eventName) => {
+            window.addEventListener(eventName, (event) => {
+                if ((event.target instanceof Node && folder.contains(event.target)) || isDraggingLeft || isDraggingMiddle) {
+                    resetInstructionsTimer();
+                }
+            }, true);
+        });
+
+        resetInstructionsTimer();
 
         window.addEventListener('contextmenu', (e) => {
             if (e.button === 1) e.preventDefault();
@@ -262,7 +396,7 @@
                 startLeftY = e.clientY;
 
                 currentOpenProgress += deltaY * 0.4;
-                currentOpenProgress = Math.max(0, Math.min(100, currentOpenProgress));
+                currentOpenProgress = Math.max(MIN_FOLDER_OPENING, Math.min(100, currentOpenProgress));
 
                 updateMechanics(currentOpenProgress);
             }
@@ -290,6 +424,7 @@
         });
 
         function updateMechanics(progress) {
+            progress = Math.max(MIN_FOLDER_OPENING, Math.min(100, progress));
             const factor = progress / 100;
             const targetAngle = factor * -MAX_FOLDER_OPENING;
             
@@ -306,8 +441,9 @@
                     sheet.style.transition = 'none';
                     const sheetMaxAngleMultiplier = 0.8 - (idx * (1.2 / (sheets.length || 1)));
                     const currentSheetAngle = targetAngle * Math.max(0.1, sheetMaxAngleMultiplier);
-                    const depth = idx * -6;
+                    const depth = idx * 0.01;
                     sheet.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg)`;
+                    sheet.style.visibility = Math.abs(targetAngle) < 1 ? 'hidden' : 'visible';
                 }
             });
         }
@@ -325,7 +461,7 @@
                 const targetAngle = factor * -MAX_FOLDER_OPENING;
                 const sheetMaxAngleMultiplier = 0.8 - (idx * (1.2 / (sheets.length || 1)));
                 const currentSheetAngle = targetAngle * Math.max(0.1, sheetMaxAngleMultiplier);
-                const depth = idx * -6;
+                const depth = idx * 0.01;
                 
                 sheetElement.style.transform = `translateZ(${depth}px) rotateX(${currentSheetAngle}deg) scale(1)`;
 
