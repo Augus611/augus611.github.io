@@ -198,6 +198,7 @@
     <div class="instrucciones" aria-hidden="true">
         <p><strong>Click Izquierdo + Arrastrar abajo:</strong> Abre la carpeta en abanico.</p>
         <p style="margin-top: 0.3rem; color: #a1a1aa;"><strong>Rueda del Medio + Arrastrar:</strong> Rota la carpeta.</p>
+        <p style="margin-top: 0.3rem; color: #a1a1aa;"><strong>Rueda del Mouse:</strong> Acerca o aleja la carpeta.</p>
     </div>
 
     <div class="global-viewport" id="viewport">
@@ -218,6 +219,8 @@
         const MIN_FOLDER_OPENING = 5;
         const MAX_FOLDER_OPENING = 80; 
         const MAX_3D_ROTATION    = 60; 
+        const MIN_ZOOM = 0.75;
+        const MAX_ZOOM = 1.5;
         const PAPER_BACK_OFFSET = -1;
         const PAPER_STACK_SPACING = 0.1;
         const PAPER_FAN_FOLLOW = 0.9;
@@ -240,6 +243,7 @@
         let startMiddleY = 0;
         let currentRotX = 0;
         let currentRotY = 0;
+        let currentZoom = 1;
         let instructionsTimer;
         let showInstructionsAfterIdleCycle = false;
         let idleAnimationActive = false;
@@ -345,6 +349,17 @@
         window.addEventListener('contextmenu', (e) => {
             if (e.button === 1) e.preventDefault();
         });
+
+        window.addEventListener('wheel', (event) => {
+            if (event.target instanceof Node && folder.contains(event.target)) {
+                event.preventDefault();
+                currentZoom = Math.max(
+                    MIN_ZOOM,
+                    Math.min(MAX_ZOOM, currentZoom - event.deltaY * 0.001)
+                );
+                viewport.style.scale = currentZoom;
+            }
+        }, { passive: false });
 
         // CARGA DINÁMICA DEL CV DESDE EL ARCHIVO DE TEXTO PLANO
         async function cargarDatosCV() {
